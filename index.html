@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+ 
 <meta name="viewport"  content="width = device-width , initial-scale = 1.0 ,
 maximum-scale = 1.0 , minimum-scale = 1.0 , user-scalable = no">
 <meta charset="UTF-8">
@@ -20,93 +20,161 @@ maximum-scale = 1.0 , minimum-scale = 1.0 , user-scalable = no">
 <div class="card">
 
     <div class="row">
-        <div class="col-9 stn9" id="sefrid">
-            <span class="spn1">0</span>
+        <div class="col-9 stn9">
+            <button class="spn1">0</button>
         </div>
-        <div class="col-3 stn3" style="background-color:#16b0a0;">
-            <span class="spn2">AC</span>
+        <div class="col-3 stn3" style="background-color:#005249;">
+            <button class="spn2">AC</button>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-3 stn3" id="nohid" onclick="active()">
-            <span class="spn2">9</span>
+        <div class="col-3 stn3">
+            <button class="spn2">9</button>
         </div>
         <div class="col-3 stn3">
-            <span class="spn2" id="hashtid">8</span>
+            <button class="spn2">8</button>
         </div>
         <div class="col-3 stn3">
-            <span class="spn2">7</span>
+            <button class="spn2">7</button>
         </div>
         <div class="col-3 stn3" style="background-color: gray;">
-            <span class="spn2">+</span>
+            <button class="spn2">+</button>
         </div>
     </div>
 
         <div class="row">
         <div class="col-3 stn3">
-            <span class="spn2">4</span>
+            <button class="spn2">4</button>
         </div>
         <div class="col-3 stn3">
-            <span class="spn2">5</span>
+            <button class="spn2">5</button>
         </div>
         <div class="col-3 stn3">
-            <span class="spn2">6</span>
+            <button class="spn2">6</button>
         </div>
         <div class="col-3 stn3" style="background-color: gray;">
-            <span class="spn2">-</span>
+            <button class="spn2">-</button>
         </div>
 
         </div>
                 <div class="row">
             <div class="col-3 stn3">
-                <span class="spn2">1</span>
+                <button class="spn2">1</button>
             </div>
             <div class="col-3 stn3">
-                <span class="spn2">2</span>
+                <button class="spn2">2</button>
             </div>
             <div class="col-3 stn3">
-                <span class="spn2">3</span>
+                <button class="spn2">3</button>
             </div>
             <div class="col-3 stn3" style="background-color: gray;">
-                <span class="spn2">÷</span>
+                <button class="spn2">÷</button>
             </div>
         </div>
 
         <div class="row">
             <div class="col-3 stn3">
-                <span class="spn2">.</span>
+                <button class="spn2">.</button>
             </div>
             <div class="col-3 stn3">
-                <span class="spn2">0</span>
+                <button class="spn2">0</button>
             </div>
             <div class="col-3 stn3">
-                <span class="spn2">=</span>
+                <button class="spn2">=</button>
             </div>
             <div class="col-3 stn3" style="background-color: gray;">
-                <span class="spn2">x</span>
+                <button class="spn2">x</button>
         </div>
 
         
 </div>
 
+<div class="div-p" >
+
+    <span class="spn-p">Designed By Mehran Shafigh</span>
+
+</div>
+
+
+
 <script>
 
-const noh = document.getElementById("nohid") ;
-const sefr = document.getElementById("sefrid") ;
-const hasht = document.getElementById("hashtid") ;
 
 
-function active(){
-
-sefr.innerHTML = "9" ;
-
+const buttons = document.querySelectorAll(".stn3");
+const display = document.querySelector(".spn1"); 
 
 
+let current = "";
+let operator = "";
+let previous = "";
+
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const value = btn.innerText.trim();
+    handleInput(value);
+  });
+});
+
+function handleInput(value) {
+
+  // اگر عدد یا نقطه بود
+  if (!isNaN(value) || value === ".") {
+    current += value;
+    display.innerText = current;
+    return;
+  }
+
+  // پاک کردن
+  if (value === "AC") {
+    clearAll();
+    return;
+  }
+
+  // مساوی
+  if (value === "=") {
+    calculate();
+    return;
+  }
+
+  // عملگر
+  operator = value;
+  previous = current;
+  current = "";
 }
-// noh.addEventListener("click" ,active) ;
-// hasht.addEventListener("click" ,active) ;
 
+function calculate() {
+  let a = Number(previous);
+  let b = Number(current);
+  let result = 0;
+
+  switch (operator) {
+    case "+":
+      result = a + b;
+      break;
+    case "-":
+      result = a - b;
+      break;
+    case "x":
+      result = a * b;
+      break;
+    case "÷":
+      result = a / b;
+      break;
+  }
+
+  display.innerText = result;
+  current = result.toString();
+  operator = "";
+}
+
+function clearAll() {
+  current = "";
+  previous = "";
+  operator = "";
+  display.innerText = "0";
+}
 
 
 
